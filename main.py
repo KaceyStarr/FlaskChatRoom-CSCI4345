@@ -28,9 +28,9 @@ class Config:
     # Available chat rooms - stored as constant for now, could be moved to database
     CHAT_ROOMS = [
         'General',
-        'Zero to Knowing',
-        'Code with Josh',
-        'The Nerd Nook'
+        'Video Games',
+        'Movies',
+        'Nerd Shit'
     ]
 
 # Initialize Flask app

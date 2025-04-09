@@ -1,7 +1,7 @@
 /* Global body styles */
 body {
     background: radial-gradient(circle, rgba(255, 255, 255, 0.1), rgba(58, 66, 118, 0.7)), 
-                linear-gradient(135deg, #a8c0ff, #3f2b96); /* Combine linear gradient with radial for more depth */
+                linear-gradient(135deg, #1c1c1e, #121212); /* Darker gradient for background */
     font-family: Arial, sans-serif;
     margin: 0; /* Remove default body margin */
     display: flex; /* Flexbox for centering */
@@ -15,10 +15,10 @@ body {
     max-width: 400px;
     width: 100%; /* Ensures that the container doesn't overflow */
     padding: 30px;
-    background-color: white;
+    background-color: #2c2c2e; /* Darker background for container */
     border-radius: 12px; /* Rounded corners for a softer look */
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Larger shadow for a more pronounced effect */
-    border: 1px solid #ccc; /* Soft light border around the box */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5); /* Larger shadow for a more pronounced effect */
+    border: 1px solid #444; /* Darker border to match the dark theme */
 }
 
 /* Title styling */
@@ -27,7 +27,7 @@ body {
     margin-bottom: 30px;
     font-size: 24px; /* Slightly larger title for emphasis */
     font-weight: bold;
-    color: #333; /* Darker color for better contrast */
+    color: #ffffff; /* White text for better contrast in dark mode */
 }
 
 /* Form control input fields */
@@ -39,8 +39,15 @@ body {
     font-size: 16px;
     width: 100%;
     box-sizing: border-box; /* Make sure padding is included in width calculation */
-    border: 1px solid #ddd; /* Light border around the inputs */
-    background-color: #f9f9f9; /* Lighter background for inputs */
+    border: 1px solid #555; /* Darker border to fit dark theme */
+    background-color: #333333; /* Dark background for input fields */
+    color: #ffffff; /* White text color for input fields */
+}
+
+/* Focused input field */
+.form-control:focus {
+    border-color: #007aff; /* iMessage blue for focus state */
+    box-shadow: 0 0 0 2px rgba(0, 122, 255, 0.2); /* Light blue shadow on focus */
 }
 
 /* Submit button styling */
@@ -49,19 +56,23 @@ body {
     width: 100%;
     height: 40px;
     font-size: 16px;
-    background-color: #007bff; /* Standard blue color for the button */
+    background-color: #007aff; /* iMessage blue for button */
     border: none;
+    color: #ffffff; /* White text for button */
 }
 
 .btn-primary:hover {
-    background-color: #0056b3; /* Darker blue on hover */
+    background-color: #005bb5; /* Darker blue on hover */
 }
 
 /* Error message styling */
 .alert {
     border-radius: 20px;
-    background-color: #f8d7da; /* Light red background for error */
-    color: #721c24; /* Dark red text for contrast */
+    background-color: #ff3b30; /* iMessage red for error */
+    color: #ffffff; /* White text for better readability */
+    padding: 10px;
+    font-size: 14px;
+    text-align: center;
 }
 
 /* Sign-up link at the bottom */
@@ -71,10 +82,17 @@ body {
 }
 
 .sign-up-link a {
-    color: #007bff;
+    color: #007aff; /* iMessage blue for link */
     text-decoration: none;
 }
 
 .sign-up-link a:hover {
     text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .login-container {
+        padding: 20px;
+    }
 }
