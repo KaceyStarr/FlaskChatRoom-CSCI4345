@@ -1,0 +1,80 @@
+/* Global body styles */
+body {
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1), rgba(58, 66, 118, 0.7)), 
+                linear-gradient(135deg, #a8c0ff, #3f2b96); /* Combine linear gradient with radial for more depth */
+    font-family: Arial, sans-serif;
+    margin: 0; /* Remove default body margin */
+    display: flex; /* Flexbox for centering */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    min-height: 100vh; /* Full height of the viewport */
+}
+
+/* Login container styling */
+.login-container {
+    max-width: 400px;
+    width: 100%; /* Ensures that the container doesn't overflow */
+    padding: 30px;
+    background-color: white;
+    border-radius: 12px; /* Rounded corners for a softer look */
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); /* Larger shadow for a more pronounced effect */
+    border: 2px solid #007bff; /* Strong blue border around the container */
+}
+
+/* Title styling */
+.login-container h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 24px; /* Slightly larger title for emphasis */
+    font-weight: bold;
+    color: #333; /* Darker color for better contrast */
+}
+
+/* Form control input fields */
+.form-control {
+    border-radius: 20px;
+    margin-bottom: 15px;
+    height: 40px;
+    padding: 10px;
+    font-size: 16px;
+    width: 100%;
+    box-sizing: border-box; /* Make sure padding is included in width calculation */
+    border: 1px solid #ddd; /* Light border around the inputs */
+    background-color: #f9f9f9; /* Lighter background for inputs */
+}
+
+/* Submit button styling */
+.btn-primary {
+    border-radius: 20px;
+    width: 100%;
+    height: 40px;
+    font-size: 16px;
+    background-color: #007bff; /* Standard blue color for the button */
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+/* Error message styling */
+.alert {
+    border-radius: 20px;
+    background-color: #f8d7da; /* Light red background for error */
+    color: #721c24; /* Dark red text for contrast */
+}
+
+/* Sign-up link at the bottom */
+.sign-up-link {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.sign-up-link a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.sign-up-link a:hover {
+    text-decoration: underline;
+}
