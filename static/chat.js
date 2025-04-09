@@ -38,6 +38,23 @@ socket.on('active_users', (data) => {
 		.join('');
 });
 
+// 🆕 Load chat history on join
+socket.on('chat_history', (data) => {
+	const chat = document.getElementById('chat');
+	chat.innerHTML = ''; // Clear current chat UI
+
+	roomMessages[currentRoom] = []; // Reset local store
+
+	data.messages.forEach((msg) => {
+		const sender = msg.username;
+		const message = msg.message;
+		const type = sender === username ? 'own' : 'other';
+
+		roomMessages[currentRoom].push({ sender, message, type });
+		addMessage(sender, message, type);
+	});
+});
+
 // Message handling
 function addMessage(sender, message, type) {
 	if (!roomMessages[currentRoom]) {
@@ -91,15 +108,9 @@ function joinRoom(room) {
 
 	highlightActiveRoom(room);
 
-	// Show room history
+	// Clear current chat — history will be reloaded via chat_history event
 	const chat = document.getElementById('chat');
 	chat.innerHTML = '';
-
-	if (roomMessages[room]) {
-		roomMessages[room].forEach((msg) => {
-			addMessage(msg.sender, msg.message, msg.type);
-		});
-	}
 }
 
 function insertPrivateMessage(user) {
@@ -115,15 +126,13 @@ function handleKeyPress(event) {
 }
 
 // Initialize chat when page loads
-let chat;
 document.addEventListener('DOMContentLoaded', () => {
-	chat = new ChatApp();
 	if ('Notification' in window) {
 		Notification.requestPermission();
 	}
 });
 
-// Add this new function to handle room highlighting
+// Highlight selected room
 function highlightActiveRoom(room) {
 	document.querySelectorAll('.room-item').forEach((item) => {
 		item.classList.remove('active-room');

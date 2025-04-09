@@ -127,6 +127,16 @@ def init_db():
                 password TEXT NOT NULL
             )
         ''')
+        
+        cursor.execute('''
+            CREATE TABLE IF NOT EXISTS chat_messages (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                username TEXT NOT NULL,
+                room TEXT NOT NULL,
+                message TEXT NOT NULL,
+                timestamp DATETIME NOT NULL
+            )
+        ''')
         conn.commit()
 
 def get_user(username):
@@ -196,6 +206,14 @@ def on_join(data: dict):
         join_room(room)
         active_users[request.sid]['room'] = room
         
+        # Retrieve messages from the database for the room
+        messages = get_messages_from_db(room)
+        
+        # Emit the chat history to the user when they join the room
+        emit('chat_history', {
+            'messages': messages
+        }, room=room)
+
         emit('status', {
             'msg': f'{username} has joined the room.',
             'type': 'join',
@@ -206,27 +224,6 @@ def on_join(data: dict):
     
     except Exception as e:
         logger.error(f"Join room error: {str(e)}")
-
-@socketio.on('leave')
-def on_leave(data: dict):
-    try:
-        username = session['username']
-        room = data['room']
-        
-        leave_room(room)
-        if request.sid in active_users:
-            active_users[request.sid].pop('room', None)
-        
-        emit('status', {
-            'msg': f'{username} has left the room.',
-            'type': 'leave',
-            'timestamp': datetime.now().isoformat()
-        }, room=room)
-        
-        logger.info(f"User {username} left room: {room}")
-    
-    except Exception as e:
-        logger.error(f"Leave room error: {str(e)}")
 
 @socketio.on('message')
 def handle_message(data: dict):
@@ -240,9 +237,12 @@ def handle_message(data: dict):
             return
         
         timestamp = datetime.now().isoformat()
-        
+
+        # Save the message to the database
+        save_message_to_db(username, room, message, timestamp)
+
+        # If the message is a private message, handle it accordingly
         if msg_type == 'private':
-            # Handle private messages
             target_user = data.get('target')
             if not target_user:
                 return
@@ -277,6 +277,33 @@ def handle_message(data: dict):
     
     except Exception as e:
         logger.error(f"Message handling error: {str(e)}")
+
+
+def save_message_to_db(username: str, room: str, message: str, timestamp: str):
+    """Save the chat message to the database"""
+    with sqlite3.connect(DB_NAME) as conn:
+        cursor = conn.cursor()
+        cursor.execute('''
+            INSERT INTO chat_messages (username, room, message, timestamp)
+            VALUES (?, ?, ?, ?)
+        ''', (username, room, message, timestamp))
+        conn.commit()
+
+def get_messages_from_db(room: str) -> List[Dict[str, str]]:
+    """Retrieve previous messages from the database for the given room"""
+    with sqlite3.connect(DB_NAME) as conn:
+        cursor = conn.cursor()
+        cursor.execute('''
+            SELECT username, message, timestamp
+            FROM chat_messages
+            WHERE room = ?
+            ORDER BY timestamp ASC
+        ''', (room,))
+        rows = cursor.fetchall()
+        
+        messages = [{'username': row[0], 'message': row[1], 'timestamp': row[2]} for row in rows]
+        
+        return messages
 
 # Initialize DB on startup
 init_db()
