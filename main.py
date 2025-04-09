@@ -67,7 +67,7 @@ def index():
         rooms=app.config['CHAT_ROOMS']
     )
 
-# Login route
+# Login route.
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
