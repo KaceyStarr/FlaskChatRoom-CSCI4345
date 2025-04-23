@@ -38,7 +38,7 @@ socket.on('active_users', (data) => {
 		.join('');
 });
 
-// 🆕 Load chat history on join
+// Load chat history on join
 socket.on('chat_history', (data) => {
 	const chat = document.getElementById('chat');
 	chat.innerHTML = ''; // Clear current chat UI
